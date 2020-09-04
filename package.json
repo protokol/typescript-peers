@@ -1,17 +1,20 @@
 {
-	"name": "@arkecosystem/peers",
+	"name": "@protokol/peers",
 	"version": "0.2.1",
-	"description": "A simple TypeScript peer discovery client for the ARK Blockchain.",
-	"homepage": "https://github.com/ArkEcosystem/typescript-peers",
+	"description": "A simple TypeScript peer discovery client for the Protokol Blockchains.",
+	"homepage": "https://github.com/protokol/typescript-peers",
 	"bugs": {
-		"url": "https://github.com/ArkEcosystem/typescript-peers/issues"
+		"url": "https://github.com/protokol/typescript-peers/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git@github.com:ArkEcosystem/typescript-peers.git"
+		"url": "git@github.com:protokol/typescript-peers.git"
 	},
 	"license": "MIT",
-	"author": "Brian Faust <hello@basecode.sh>",
+	"authors": [
+	  	"Žan Kovač <zan@protokol.com>",
+	  	"Brian Faust <hello@basecode.sh>"
+	],
 	"files": [
 		"/dist"
 	],
