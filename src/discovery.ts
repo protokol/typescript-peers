@@ -1,5 +1,5 @@
-import ky from "ky-universal";
 import isUrl from "is-url-superb";
+import ky from "ky-universal";
 import orderBy from "lodash.orderby";
 import semver from "semver";
 import { IPeer, IPeerResponse } from "./interfaces";
@@ -8,6 +8,7 @@ export class PeerDiscovery {
 	private version: string | undefined;
 	private latency: number | undefined;
 	private orderBy: string[] = ["latency", "desc"];
+
 
 	private constructor(private readonly seeds: IPeer[]) {}
 
@@ -31,16 +32,22 @@ export class PeerDiscovery {
 				for (const seed of body.data) {
 					let port = defaultPort;
 					if (seed.ports) {
-						const walletApiPort = seed.ports["@arkecosystem/core-wallet-api"];
 						const apiPort = seed.ports["@arkecosystem/core-api"];
-						if (walletApiPort >= 1 && walletApiPort <= 65535) {
-							port = walletApiPort;
-						} else if (apiPort >= 1 && apiPort <= 65535) {
+						if (apiPort >= 1 && apiPort <= 65535) {
 							port = apiPort;
 						}
 					}
 
-					seeds.push({ ip: seed.ip, port });
+					seeds.push({
+						ip: seed.ip,
+						port,
+						...{
+							ports: seed.ports,
+							version: seed.version,
+							height: seed.height,
+							latency: seed.latency
+						}
+					});
 				}
 			} else {
 				const body: any = await ky.get(
@@ -153,7 +160,7 @@ export class PeerDiscovery {
 	}
 
 	public async findPeersWithoutEstimates(opts: { additional?: string[] } = {}): Promise<IPeer[]> {
-		const apiPeers: IPeer[] = await this.findPeersWithPlugin('core-api', opts);
+		const apiPeers: IPeer[] = await this.findPeersWithPlugin("core-api", opts);
 
 		const requests = apiPeers.map(peer => {
 			return ky.get(`http://${peer.ip}:${peer.port}/api/blocks?limit=1`).json();

@@ -30,8 +30,8 @@ describe("PeerDiscovery", () => {
 
 				expect(peerDiscovery.getSeeds()).toEqual(
 					dummyPeersWalletApi.map(peer => ({
-						ip: peer.ip,
-						port: 4140,
+						...peer,
+						port: 4103
 					})),
 				);
 			});
@@ -49,7 +49,7 @@ describe("PeerDiscovery", () => {
 
 				expect(peerDiscovery.getSeeds()).toEqual(
 					dummyPeersPublicApi.map(peer => ({
-						ip: peer.ip,
+						...peer,
 						port: 4103,
 					})),
 				);
